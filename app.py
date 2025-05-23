@@ -170,10 +170,21 @@ def dashboard():
             flash(f"Your deposit of ${deposit.amount} BTC has been confirmed!", "success")
             db.session.commit()
     
+    # Serialize transactions for JavaScript chart
+    serialized_transactions = []
+    for tx in transactions:
+        serialized_transactions.append({
+            'tx_type': tx.tx_type,
+            'amount': tx.amount,
+            'status': tx.status,
+            'timestamp': tx.timestamp.strftime('%Y-%m-%d %H:%M:%S')
+        })
+    
     return render_template(
         "dashboard.html", 
         user=user, 
         transactions=transactions,
+        serialized_transactions=serialized_transactions,
         wallet_address=WALLET_ADDRESS
     )
 

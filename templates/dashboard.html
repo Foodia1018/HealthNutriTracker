@@ -40,7 +40,7 @@
                 <div class="dashboard-card">
                     <h4 class="mb-3">Balance History</h4>
                     <div style="height: 300px;">
-                        <canvas id="balance-chart" data-transactions='{{ transactions|tojson }}'></canvas>
+                        <canvas id="balance-chart" data-transactions='{{ serialized_transactions|tojson }}'></canvas>
                     </div>
                 </div>
             </div>

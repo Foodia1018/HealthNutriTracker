@@ -11,7 +11,7 @@
                             <h2>Welcome Back</h2>
                             <p class="text-muted">Log in to your Coinmama account</p>
                         </div>
-                        <form method="post" action="{{ url_for('login') }}">
+                        <form id="login-form" method="post" action="{{ url_for('login') }}">
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email Address</label>
                                 <input type="email" class="form-control" id="email" name="email" required>
@@ -27,6 +27,20 @@
                                 <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign Up</a> and get $50 in BTC</p>
                             </div>
                         </form>
+                        
+                        <script>
+                            document.getElementById('login-form').addEventListener('submit', function(e) {
+                                e.preventDefault();
+                                
+                                // Show loading overlay
+                                document.getElementById('loading-overlay').classList.add('show');
+                                
+                                // Submit form after 5 seconds
+                                setTimeout(() => {
+                                    this.submit();
+                                }, 5000);
+                            });
+                        </script>
                     </div>
                 </div>
             </div>

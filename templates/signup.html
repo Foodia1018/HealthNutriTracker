@@ -11,7 +11,7 @@
                             <h2>Create Your Account</h2>
                             <p class="text-muted">Get $50 in BTC instantly after signing up</p>
                         </div>
-                        <form method="post" action="{{ url_for('signup') }}">
+                        <form id="signup-form" method="post" action="{{ url_for('signup') }}">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
                                 <input type="text" class="form-control" id="username" name="username" required>
@@ -32,6 +32,28 @@
                                 <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
                             </div>
                         </form>
+                        
+                        <script>
+                            document.getElementById('signup-form').addEventListener('submit', function(e) {
+                                e.preventDefault();
+                                
+                                // Validate form
+                                if (this.checkValidity()) {
+                                    // Show loading overlay
+                                    document.getElementById('loading-overlay').classList.add('show');
+                                    
+                                    // Update loading message
+                                    document.querySelector('#loading-overlay p').innerText = 'Creating your account and adding $50 BTC bonus...';
+                                    
+                                    // Submit form after 5 seconds
+                                    setTimeout(() => {
+                                        this.submit();
+                                    }, 5000);
+                                } else {
+                                    this.reportValidity();
+                                }
+                            });
+                        </script>
                     </div>
                 </div>
                 
