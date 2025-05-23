@@ -172,13 +172,15 @@ def dashboard():
     
     # Serialize transactions for JavaScript chart
     serialized_transactions = []
-    for tx in transactions:
-        serialized_transactions.append({
-            'tx_type': tx.tx_type,
-            'amount': tx.amount,
-            'status': tx.status,
-            'timestamp': tx.timestamp.strftime('%Y-%m-%d %H:%M:%S')
-        })
+    if transactions:
+        for tx in transactions:
+            if hasattr(tx, 'tx_type') and hasattr(tx, 'amount') and hasattr(tx, 'status') and hasattr(tx, 'timestamp'):
+                serialized_transactions.append({
+                    'tx_type': str(tx.tx_type),
+                    'amount': float(tx.amount),
+                    'status': str(tx.status),
+                    'timestamp': tx.timestamp.strftime('%Y-%m-%d %H:%M:%S') if tx.timestamp else ''
+                })
     
     return render_template(
         "dashboard.html", 
