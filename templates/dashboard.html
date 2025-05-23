@@ -1,0 +1,221 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h2 class="mb-0">Welcome, {{ user.username }}</h2>
+                    <p class="mb-0 opacity-75">Manage your cryptocurrency investments</p>
+                </div>
+                <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                    <h3 class="mb-0">${{ "%.2f"|format(user.btc_balance) }} BTC</h3>
+                    <p class="mb-0 opacity-75">Current Balance</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dashboard Actions -->
+        <div class="row mb-4">
+            <div class="col-md-6 mb-3 mb-md-0">
+                <a href="{{ url_for('deposit') }}" class="btn btn-primary btn-lg d-block">
+                    <i class="fas fa-arrow-down me-2"></i> Deposit Bitcoin
+                </a>
+            </div>
+            <div class="col-md-6">
+                <a href="{{ url_for('withdraw') }}" class="btn btn-outline-primary btn-lg d-block{% if not user.confirmed_deposit %} disabled{% endif %}" {% if not user.confirmed_deposit %}aria-disabled="true"{% endif %}>
+                    <i class="fas fa-arrow-up me-2"></i> Withdraw Bitcoin
+                </a>
+                {% if not user.confirmed_deposit %}
+                <small class="text-muted mt-2 d-block">Make a deposit first to enable withdrawals</small>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Balance Card -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="dashboard-card">
+                    <h4 class="mb-3">Balance History</h4>
+                    <div style="height: 300px;">
+                        <canvas id="balance-chart" data-transactions='{{ transactions|tojson }}'></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Balance Breakdown -->
+            <div class="col-lg-4 mb-4">
+                <div class="dashboard-card h-100">
+                    <h4 class="mb-3">Balance Breakdown</h4>
+                    <div class="mb-3 p-3 bg-light rounded">
+                        <div class="d-flex justify-content-between">
+                            <span>Initial Bonus:</span>
+                            <span>$50.00</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 p-3 bg-light rounded">
+                        <div class="d-flex justify-content-between">
+                            <span>Deposits:</span>
+                            <span>${{ "%.2f"|format(transactions|selectattr('tx_type', 'equalto', 'deposit')|selectattr('status', 'equalto', 'completed')|sum(attribute='amount')) }}</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 p-3 bg-light rounded">
+                        <div class="d-flex justify-content-between">
+                            <span>Growth:</span>
+                            <span>${{ "%.2f"|format(transactions|selectattr('tx_type', 'equalto', 'growth')|sum(attribute='amount')) }}</span>
+                        </div>
+                    </div>
+                    <div class="mb-3 p-3 bg-light rounded">
+                        <div class="d-flex justify-content-between">
+                            <span>Withdrawals:</span>
+                            <span>${{ "%.2f"|format(transactions|selectattr('tx_type', 'equalto', 'withdrawal')|sum(attribute='amount')) }}</span>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-primary text-white rounded">
+                        <div class="d-flex justify-content-between fw-bold">
+                            <span>Current Balance:</span>
+                            <span>${{ "%.2f"|format(user.btc_balance) }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Wallet Info -->
+            <div class="col-lg-4 mb-4">
+                <div class="dashboard-card h-100">
+                    <h4 class="mb-3">Wallet Information</h4>
+                    <div class="text-center mb-3">
+                        <div id="qr-code" data-address="{{ wallet_address }}" class="qr-container d-inline-block mb-3"></div>
+                        <p class="mb-2">Your Deposit Address:</p>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" value="{{ wallet_address }}" readonly>
+                            <button class="btn btn-outline-primary" type="button" id="copy-address" data-address="{{ wallet_address }}">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="alert alert-info mb-0">
+                        <i class="fas fa-info-circle me-2"></i> Send between $150-$1M to this address for 2x returns every 3 days
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Next Doubling -->
+            <div class="col-lg-4 mb-4">
+                <div class="dashboard-card h-100">
+                    <h4 class="mb-3">Growth Timeline</h4>
+                    {% if user.last_deposit_time %}
+                        {% set days_since = ((now() - user.last_deposit_time).days) %}
+                        {% set days_until_next = 3 - (days_since % 3) %}
+                        {% set hours_until_next = 24 - ((now() - user.last_deposit_time).seconds // 3600) %}
+                        
+                        <div class="alert alert-success mb-4">
+                            <i class="fas fa-check-circle me-2"></i> Your deposit is confirmed and growing
+                        </div>
+                        
+                        <p class="mb-2">Next balance doubling in:</p>
+                        <div class="p-3 bg-light rounded mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>{{ days_until_next }} days, {{ hours_until_next }} hours</span>
+                                <i class="fas fa-clock text-primary"></i>
+                            </div>
+                        </div>
+                        
+                        <p class="mb-2">Projected balance in 9 days:</p>
+                        <div class="p-3 bg-light rounded">
+                            <div class="d-flex justify-content-between fw-bold">
+                                <span>${{ "%.2f"|format(user.btc_balance * 8) }}</span>
+                                <i class="fas fa-chart-line text-success"></i>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning mb-4">
+                            <i class="fas fa-exclamation-triangle me-2"></i> Make a deposit to start growing your balance
+                        </div>
+                        
+                        <div class="text-center py-4">
+                            <i class="fas fa-coins fa-3x text-muted mb-3"></i>
+                            <p>After your first deposit of $150 or more, your balance will double every 3 days</p>
+                            <a href="{{ url_for('deposit') }}" class="btn btn-primary mt-2">Make a Deposit</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Transaction History -->
+        <div class="row">
+            <div class="col-12">
+                <div class="dashboard-card">
+                    <h4 class="mb-3">Transaction History</h4>
+                    {% if transactions %}
+                        <div class="transaction-list">
+                            {% for tx in transactions %}
+                                <div class="transaction-item">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="d-flex align-items-center">
+                                                {% if tx.tx_type == 'deposit' %}
+                                                    <i class="fas fa-arrow-down me-2 deposit"></i>
+                                                    <span>Deposit</span>
+                                                {% elif tx.tx_type == 'withdrawal' %}
+                                                    <i class="fas fa-arrow-up me-2 withdrawal"></i>
+                                                    <span>Withdrawal</span>
+                                                {% elif tx.tx_type == 'bonus' %}
+                                                    <i class="fas fa-gift me-2 bonus"></i>
+                                                    <span>Signup Bonus</span>
+                                                {% elif tx.tx_type == 'growth' %}
+                                                    <i class="fas fa-chart-line me-2 growth"></i>
+                                                    <span>Growth</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            {% if tx.tx_type == 'withdrawal' %}
+                                                <span class="text-danger">-${{ "%.2f"|format(tx.amount) }}</span>
+                                            {% else %}
+                                                <span class="text-success">+${{ "%.2f"|format(tx.amount) }}</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-3">
+                                            {% if tx.tx_hash == 'signup_bonus' %}
+                                                <span class="badge bg-primary">System</span>
+                                            {% elif tx.tx_hash.startswith('growth_') %}
+                                                <span class="badge bg-success">System</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">{{ tx.tx_hash[:8] }}...</span>
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-3 text-md-end">
+                                            <small class="text-muted">{{ tx.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>
+                                            <span class="ms-2 badge {% if tx.status == 'completed' %}bg-success{% elif tx.status == 'pending' %}bg-warning{% else %}bg-danger{% endif %}">
+                                                {{ tx.status }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-history fa-3x text-muted mb-3"></i>
+                            <p>No transactions yet</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Helper function to format datetime for Jinja templates
+function now() {
+    return new Date();
+}
+</script>
+{% endblock %}

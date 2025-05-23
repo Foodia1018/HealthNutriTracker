@@ -1,0 +1,226 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container hero-content">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1>Invest and grow your crypto wealth</h1>
+                <p class="lead">Get $50 after signing up and start doubling your balance</p>
+                <a href="{{ url_for('signup') }}" class="btn btn-primary btn-lg">Sign Up</a>
+            </div>
+            <div class="col-lg-6">
+                <img src="https://pixabay.com/get/gdcb098b2dafb48a0a3c69a71beae539ecf37880c51286b18b17f37b735dfc908f4bb4817caba838ed28815612322b19652fe176603849d983955e3c43a280141_1280.jpg" class="img-fluid rounded shadow" alt="Cryptocurrency Investment">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features" id="features">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-6 mx-auto">
+                <h2>Grow Your Bitcoin Instantly</h2>
+                <p class="lead">Coinmama makes cryptocurrency investment simple and profitable</p>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Feature 1 -->
+            <div class="col-lg-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <h3>Free $50 Bonus</h3>
+                    <p>Earn $50 in BTC instantly on signup, no strings attached. Start your crypto journey with a boost.</p>
+                </div>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="col-lg-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Double Your Crypto</h3>
+                    <p>Your deposit grows 2x in 3 days. Invest your Bitcoin and watch your balance multiply automatically.</p>
+                </div>
+            </div>
+            
+            <!-- Feature 3 -->
+            <div class="col-lg-4 mb-4">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Quick Withdrawals</h3>
+                    <p>Send BTC anytime after confirmation. Your funds are always accessible and ready to withdraw.</p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a href="{{ url_for('deposit') }}" class="btn btn-primary btn-lg">Start Depositing</a>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-6 mx-auto">
+                <h2>How It Works</h2>
+                <p class="lead">Three simple steps to grow your Bitcoin</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 80px; height: 80px;">
+                            <h3 class="text-white m-0">1</h3>
+                        </div>
+                        <h4>Sign Up</h4>
+                        <p>Create your account and receive $50 in BTC instantly in your wallet</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 80px; height: 80px;">
+                            <h3 class="text-white m-0">2</h3>
+                        </div>
+                        <h4>Deposit Bitcoin</h4>
+                        <p>Send BTC ($150–$1M) to your Coinmama wallet and wait for 3 confirmations</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center p-4">
+                        <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center mx-auto mb-4" style="width: 80px; height: 80px;">
+                            <h3 class="text-white m-0">3</h3>
+                        </div>
+                        <h4>Watch It Grow</h4>
+                        <p>Your balance doubles every 3 days, withdraw anytime after confirming your deposit</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-6 mx-auto">
+                <h2>Success Stories</h2>
+                <p class="lead">Join thousands of satisfied investors</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="me-3">
+                                <i class="fas fa-user-circle fa-3x text-primary"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">Michael R.</h5>
+                                <div class="text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="card-text">"I was skeptical at first, but after seeing my first doubling cycle, I was convinced. The $50 bonus was a great start!"</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="me-3">
+                                <i class="fas fa-user-circle fa-3x text-primary"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">Sarah T.</h5>
+                                <div class="text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="card-text">"The doubling system works perfectly. I started with $200 and withdrew $1,600 after just 12 days. Incredible service!"</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="me-3">
+                                <i class="fas fa-user-circle fa-3x text-primary"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-0">David L.</h5>
+                                <div class="text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="card-text">"The withdrawal process is quick and easy. I love how they check for confirmations automatically to ensure security."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-primary text-white">
+    <div class="container text-center">
+        <h2 class="mb-4">Ready to start growing your Bitcoin?</h2>
+        <p class="lead mb-4">Join Coinmama today and get your $50 bonus instantly</p>
+        <a href="{{ url_for('signup') }}" class="btn btn-light btn-lg me-2">Sign Up Now</a>
+        <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg">Login</a>
+    </div>
+</section>
+
+<!-- Security Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <img src="https://pixabay.com/get/ge20f185b4ee09aaf11e5d4b290636819f2489e9b7b0bac502a92eb147e79419551342575b09f02ed05609680290dd248774abf0151f7b392cd0bc9c4e2a00917_1280.jpg" class="img-fluid rounded shadow" alt="FinTech Security">
+            </div>
+            <div class="col-lg-6">
+                <h2>Bank-Level Security</h2>
+                <p class="lead">Your investments are protected by advanced security measures</p>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><i class="fas fa-shield-alt text-primary me-2"></i> Blockchain verification for all transactions</li>
+                    <li class="mb-2"><i class="fas fa-lock text-primary me-2"></i> Secure wallet infrastructure</li>
+                    <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> 3-confirmation system for deposits</li>
+                    <li class="mb-2"><i class="fas fa-server text-primary me-2"></i> Automated growth algorithms</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

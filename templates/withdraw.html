@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="dashboard-card">
+                    <h2 class="mb-4">Withdraw Bitcoin</h2>
+                    
+                    <div class="alert alert-info mb-4">
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="fas fa-info-circle fa-2x"></i>
+                            </div>
+                            <div>
+                                <h5 class="alert-heading">Withdrawal Information</h5>
+                                <p class="mb-0">You can withdraw your Bitcoin to any external wallet. Funds will be sent immediately after processing.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row align-items-center mb-4">
+                        <div class="col-md-6 text-center mb-4 mb-md-0">
+                            <img src="https://pixabay.com/get/gff67ab29dfed1efdcbd7f805a35fb08d3bd64635f7e0b3cae16867e8720687e53895db87ff1d6baa312c8e18d1b3c76b11694b6fbbd14973bb904854ef6636f2_1280.jpg" class="img-fluid rounded" alt="Bitcoin Wallet Interface">
+                        </div>
+                        <div class="col-md-6">
+                            <form id="withdraw-form" method="post" action="{{ url_for('withdraw') }}">
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Bitcoin Wallet Address</label>
+                                    <input type="text" class="form-control" id="address" name="address" placeholder="Enter your Bitcoin address" required>
+                                    <div class="form-text">Enter the Bitcoin address where you'd like to receive your funds</div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label for="amount" class="form-label">Amount to Withdraw</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input type="number" class="form-control" id="amount" name="amount" placeholder="0.00" min="0.001" max="{{ user.btc_balance }}" step="0.001" data-max="{{ user.btc_balance }}" required>
+                                    </div>
+                                    <div class="d-flex justify-content-between mt-1">
+                                        <div class="form-text">Minimum: $0.001</div>
+                                        <div>
+                                            <a href="#" onclick="document.getElementById('amount').value='{{ user.btc_balance }}'; return false;" class="text-primary">Max: ${{ "%.4f"|format(user.btc_balance) }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary btn-lg">Withdraw Funds</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="card bg-light border-0 p-3">
+                        <div class="card-body">
+                            <h5>Important Notes:</h5>
+                            <ul class="mb-0">
+                                <li>Double-check your wallet address before confirming</li>
+                                <li>Withdrawals typically process within seconds</li>
+                                <li>There are no fees for withdrawals from Coinmama</li>
+                                <li>You can withdraw all or part of your balance</li>
+                                <li>The minimum withdrawal amount is 0.001 BTC</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card mt-4">
+                    <h4 class="mb-3">Balance Summary</h4>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3 bg-light rounded">
+                                <div class="d-flex justify-content-between">
+                                    <span>Available Balance:</span>
+                                    <span class="fw-bold">${{ "%.2f"|format(user.btc_balance) }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3 bg-light rounded">
+                                <div class="d-flex justify-content-between">
+                                    <span>Pending Growth:</span>
+                                    <span class="fw-bold">
+                                        {% if user.last_deposit_time %}
+                                            {% set days_since = ((now() - user.last_deposit_time).days) %}
+                                            {% set days_until_next = 3 - (days_since % 3) %}
+                                            In {{ days_until_next }} days
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-primary">Back to Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Helper function to format datetime for Jinja templates
+function now() {
+    return new Date();
+}
+</script>
+{% endblock %}

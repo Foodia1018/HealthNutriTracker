@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="text-center mb-4">
+                            <h2>Welcome Back</h2>
+                            <p class="text-muted">Log in to your Coinmama account</p>
+                        </div>
+                        <form method="post" action="{{ url_for('login') }}">
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                            </div>
+                            <div class="mt-4 text-center">
+                                <p>Don't have an account? <a href="{{ url_for('signup') }}">Sign Up</a> and get $50 in BTC</p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-5 d-none d-md-block">
+                <div class="h-100 d-flex flex-column justify-content-center">
+                    <div class="card border-0 shadow mb-4">
+                        <div class="card-body p-4">
+                            <h4>Your Crypto Investment Platform</h4>
+                            <p>Coinmama offers a secure and profitable way to grow your cryptocurrency investments:</p>
+                            <ul class="list-unstyled">
+                                <li class="mb-3">
+                                    <i class="fas fa-chart-line text-primary me-2"></i>
+                                    2x returns every 3 days
+                                </li>
+                                <li class="mb-3">
+                                    <i class="fas fa-shield-alt text-primary me-2"></i>
+                                    3-confirmation security
+                                </li>
+                                <li>
+                                    <i class="fas fa-wallet text-primary me-2"></i>
+                                    Easy deposits and withdrawals
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="card border-0 shadow">
+                        <div class="card-body p-4">
+                            <div class="text-center mb-3">
+                                <img src="https://pixabay.com/get/g794088730c8e2a8ae479a2c069bc82768c544f57475b53fc58a8f9b847be129a6fc3da321763a2ffcfcd30aa6dbfbcdd03b4b95b2b12b60b60101aa51fc5295f_1280.jpg" class="img-fluid rounded" alt="Cryptocurrency Investment">
+                            </div>
+                            <p class="text-center mb-0">Access your account to view your growing balance</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
